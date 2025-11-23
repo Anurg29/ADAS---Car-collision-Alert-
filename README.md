@@ -1,116 +1,243 @@
-# YOLO Object Detection and Classification for ADAS
+# 🚗 ADAS - Advanced Driver Assistance System
 
-## Project Overview
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115.0-green.svg)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.0-61DAFB.svg)](https://reactjs.org)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Welcome to the YOLO-Object-Detection-for-ADAS repository! This project focuses on developing an advanced object detection system for Advanced Driver Assistance Systems (ADAS) using the YOLOv5 model. By leveraging thermal imaging, this system enhances object detection capabilities in low-visibility conditions, making it a crucial component for the safety and efficiency of autonomous vehicles.
+**AI-Powered Real-Time Object Detection System for Vehicle Safety**
 
-## Demo
+![ADAS Demo](https://img.shields.io/badge/Status-Production%20Ready-success)
 
-[![Object Detection Demo](utils/video_play.png)](https://youtu.be/bBrrJp9xdi4)
+---
 
+## 🎯 Overview
 
+ADAS is a production-ready Advanced Driver Assistance System featuring:
+- 🎥 **Real-time object detection** using YOLOv5
+- 📏 **Distance estimation** and proximity alerts
+- 🤖 **AI chatbot** for driving assistance
+- 📊 **Web dashboard** with Firebase authentication
+- 🔔 **Automated alerts** with image capture
+- 📱 **Responsive design** for mobile and desktop
 
-## Full Project Description
+---
 
-For a comprehensive overview of the project, including all steps, methodologies, and results, refer to the detailed project description/report:
+## ✨ Features
 
-- `Object Detection for ADAS.ipynb`: Full project description/report, including everything about the project.
+### Core Functionality
+- ✅ Real-time vehicle detection (cars, trucks, buses)
+- ✅ Distance calculation and proximity warnings (<50m)
+- ✅ Automatic image capture on detection
+- ✅ Alert history with timestamps
+- ✅ Visual and audio notifications
 
+### Web Interface
+- ✅ Modern React dashboard with glassmorphism design
+- ✅ Firebase authentication with email verification
+- ✅ Welcome animation and interactive tutorial
+- ✅ AI chatbot for safety tips
+- ✅ Local camera fallback mode
 
-## Features
+### Backend
+- ✅ FastAPI REST API
+- ✅ Production-ready (Railway/Render/Fly.io compatible)
+- ✅ In-memory alert storage
+- ✅ Video streaming endpoint
+- ✅ Health check and monitoring
 
-- **Thermal Image Processing:** Utilizes thermal images to detect objects in challenging environments with low visibility.
-- **YOLOv5 Model:** Implements the state-of-the-art YOLOv5 model for real-time object detection.
-- **Custom Dataset:** Trained on a custom thermal image dataset tailored for ADAS applications.
-- **Evaluation Metrics:** Comprehensive evaluation using confusion matrix, precision-recall curves, F1-confidence curves, and more.
-- **Inference Pipeline:** Demonstrates practical application through inference on new thermal images with visualized results.
+---
 
-## Project Structure
-
-- `YOLO preprocessing.ipynb`: Contains the preprocessing code to convert annotations into YOLO format.
-- `dataset/`: Directory containing the dataset in YOLO format.
-- `yolov5/Object detection.ipynb`: Notebook for training the YOLOv5 model.
-- `Object Detection for ADAS.ipynb`: Full project description/report, including everything about the project.
-- `data_test/`: Directory containing test images used to test the model.
-- `Object detection demo video.mp4`: Demo video of the object detection system.
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-Ensure you have the following installed:
-- Python 3.7+
-- PyTorch
-- OpenCV
-- Matplotlib
-- Jupyter Notebook
+- Python 3.10+
+- Node.js 18+
+- Webcam (for local testing)
 
 ### Installation
 
-1. Clone the repository:
-   
-   ```bash
-   git clone https://github.com/your-username/YOLO-Object-Detection-for-ADAS.git
-   cd YOLO-Object-Detection-for-ADAS
-
-3. Install the required packages:
-   
-   ```bash
-   pip install -r requirements.txt
-
-### Create a data.yaml File
-
-Create a data.yaml file in the yolov5 directory with the following content, adjusting paths as necessary:
-
 ```bash
-train: ../dataset/images/train
-val: ../dataset/images/val
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/ADAS-System.git
+cd ADAS-System
 
-nc: 10  # number of classes
-names: ['person', 'bike', 'car', 'motor', 'bus', 'train', 'truck', 'scooter', 'other_vehicle', 'background']
+# Backend setup
+pip install -r requirements.txt
+
+# Frontend setup
+cd frontend
+npm install
 ```
 
-### Data Preprocessing
-
-1. Download the FLIR dataset and place the index_train and index_val files in the root directory.
-2. Pass the train and test set paths to the preprocessing notebook mentioned below.
-3. Run the preprocessing notebook to convert annotations into YOLO format:
-
-   ```bash
-   jupyter notebook "YOLO preprocessing.ipynb"
-   ```
-   
-### Model Training
-
-Navigate to the yolov5 directory and open the training notebook:
+### Running Locally
 
 ```bash
-cd yolov5
-jupyter notebook "Object detection.ipynb"
+# Terminal 1 - Backend
+python3 -m uvicorn backend.main_production:app --host 0.0.0.0 --port 8000 --reload
+
+# Terminal 2 - Frontend
+cd frontend && npm run dev
+
+# Visit: http://localhost:5173
 ```
 
-Follow the instructions in the notebook to train the model using the provided dataset.
+---
 
-### Running Inference on Test Images
+## 📦 Project Structure
 
-You can also use the provided script in the Object Detection for ADAS.ipynb to perform inference on the test images in the data_test directory. The results will be saved in the output_images_test_set directory.
+```
+ADAS-System/
+├── backend/
+│   ├── main_production.py      # Production backend
+│   ├── camera.py                # Camera & YOLO detection
+│   └── routers/                 # API endpoints
+├── frontend/
+│   ├── src/
+│   │   ├── Dashboard.jsx        # Main dashboard
+│   │   ├── Login.jsx            # Authentication
+│   │   ├── AIChat.jsx           # AI assistant
+│   │   ├── WelcomeScreen.jsx    # Onboarding
+│   │   └── TutorialGuide.jsx    # Interactive guide
+│   └── dist/                    # Built files
+├── docs/                        # Documentation
+├── requirements.txt             # Python dependencies
+├── Procfile                     # Railway deployment
+└── README.md                    # This file
+```
 
-## Future Work
+---
 
-1. **Enhance Dataset:**
-   - Augment the dataset with more examples, especially for underrepresented classes like 'motor' and 'bus'.
+## 🌐 Deployment
 
-2. **Use a More Powerful GPU:**
-   - A GPU with higher memory (e.g., RTX 2080, RTX 3080) can significantly reduce training time and allow for higher batch sizes and more epochs.
+### Railway.app (Recommended)
 
-3. **Tune Hyperparameters:**
-   - Experiment with different learning rates, batch sizes, and other hyperparameters to optimize model performance.
+1. Push to GitHub
+2. Go to [Railway.app](https://railway.app)
+3. Click "Deploy from GitHub"
+4. Select this repository
+5. ✅ Done! Get your public URL
 
-4. **Class-specific Confidence Thresholds:**
-   - Implement class-specific confidence thresholds to balance precision and recall better.
+**Detailed guide:** [docs/RAILWAY_DEPLOYMENT.md](docs/RAILWAY_DEPLOYMENT.md)
 
-## Contributions
+### Frontend Deployment (Firebase)
 
-Contributions are welcome! Please feel free to submit issues, fork the repository, and send pull requests.
+```bash
+cd frontend
+npm run build
+npx firebase-tools deploy
+```
 
+---
 
+## 🎓 Usage
+
+1. **Login** - Sign up and verify your email
+2. **Welcome** - Watch the intro animation
+3. **Tutorial** - Follow the interactive guide
+4. **Dashboard** - View live camera with AI detection
+5. **Alerts** - Get notified of nearby vehicles
+6. **AI Chat** - Ask for safety tips
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **FastAPI** - Modern Python web framework
+- **OpenCV** - Computer vision
+- **YOLOv5** - Object detection model
+- **Uvicorn** - ASGI server
+
+### Frontend
+- **React** - UI framework
+- **Vite** - Build tool
+- **Firebase** - Authentication & hosting
+- **Axios** - HTTP client
+
+### Deployment
+- **Railway.app** - Backend hosting
+- **Firebase Hosting** - Frontend hosting
+
+---
+
+## 📊 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | System status |
+| `/video_feed` | GET | Live camera stream |
+| `/alerts` | GET | Get recent alerts |
+| `/stats` | GET | System statistics |
+| `/health` | GET | Health check |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Anurag Dinesh Rokade**
+- GitHub: [@anuragrokade](https://github.com/anuragrokade)
+- Email: anuragrokade9@gmail.com
+
+---
+
+## 🙏 Acknowledgments
+
+- YOLOv5 by Ultralytics
+- FastAPI by Sebastián Ramírez
+- React by Meta
+- Firebase by Google
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Alerts
+![Alerts](docs/screenshots/alerts.png)
+
+### AI Chat
+![AI Chat](docs/screenshots/ai-chat.png)
+
+---
+
+## 🔮 Future Enhancements
+
+- [ ] Multi-camera support
+- [ ] Lane detection
+- [ ] Traffic sign recognition
+- [ ] Night vision mode
+- [ ] Mobile app (React Native)
+- [ ] Advanced analytics
+
+---
+
+## ⭐ Star History
+
+If you find this project useful, please consider giving it a star!
+
+[![Star History Chart](https://api.star-history.com/svg?repos=YOUR_USERNAME/ADAS-System&type=Date)](https://star-history.com/#YOUR_USERNAME/ADAS-System&Date)
+
+---
+
+**Made with ❤️ in India**
