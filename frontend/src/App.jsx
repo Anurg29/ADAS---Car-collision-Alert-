@@ -68,15 +68,21 @@ function App() {
     }
 
     // Role-based Routing
-    const isAdmin = user.email === 'admin@adas.com';
+    const userEmail = user.email ? user.email.toLowerCase().trim() : '';
+    const isAdmin = userEmail === 'admin@adas.com' || userEmail === 'anuragdineshrokade@gmail.com';
 
     return (
         <>
             {showWelcome && <WelcomeScreen user={user} onComplete={handleWelcomeComplete} />}
             {showTutorial && <TutorialGuide onClose={handleTutorialClose} />}
 
+            {/* Role-based Routing */}
             {isAdmin ? (
-                <AdminDashboard user={user} onLogout={handleLogout} onStartTutorial={startTutorial} />
+                <AdminDashboard
+                    user={user}
+                    onLogout={handleLogout}
+                    onStartTutorial={() => setShowTutorial(true)}
+                />
             ) : (
                 <UserDashboard user={user} onLogout={handleLogout} />
             )}

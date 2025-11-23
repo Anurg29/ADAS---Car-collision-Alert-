@@ -54,51 +54,58 @@ function AdminDashboard({ user, onLogout, onStartTutorial }) {
         }
     }, [])
 
-    // Fetch alerts from backend
+    // Fetch alerts and system stats
     useEffect(() => {
         if (!isConnected) return;
 
-        const fetchAlerts = async () => {
+        const fetchData = async () => {
             try {
-                // Try database alerts first
-                let response = await axios.get(`${API_URL}/alerts?limit=10`)
+                // 1. Fetch Alerts
+                let alertsData = []
+                try {
+                    const response = await axios.get(`${API_URL}/alerts?limit=10`)
+                    alertsData = response.data || []
 
-                // If empty, try file-based captures
-                if (!response.data || response.data.length === 0) {
-                    response = await axios.get(`${API_URL}/captures?limit=10`)
-
-                    // Transform captures to alert format
-                    if (response.data && response.data.length > 0) {
-                        const transformedData = response.data.map(cap => ({
-                            id: cap.timestamp,
-                            timestamp: new Date(cap.timestamp * 1000).toISOString(),
-                            object_class: 'car',
-                            confidence: 0.9,
-                            distance: parseFloat(cap.distance.replace('m', '')),
-                            image_path: cap.url
-                        }))
-
-                        setAlerts(transformedData)
-                        setStats({
-                            totalAlerts: transformedData.length,
-                            activeWarnings: transformedData.filter(a => a.distance < 50).length
-                        })
-                        return
+                    // Fallback to captures if alerts empty
+                    if (alertsData.length === 0) {
+                        const capResponse = await axios.get(`${API_URL}/captures?limit=10`)
+                        if (capResponse.data && capResponse.data.length > 0) {
+                            alertsData = capResponse.data.map(cap => ({
+                                id: cap.timestamp,
+                                timestamp: new Date(cap.timestamp * 1000).toISOString(),
+                                object_class: 'car',
+                                confidence: 0.9,
+                                distance: parseFloat(cap.distance.replace('m', '')),
+                                image_path: cap.url
+                            }))
+                        }
                     }
-                }
+                } catch (e) { console.warn("Alerts fetch failed", e) }
 
-                setAlerts(response.data || [])
+                setAlerts(alertsData)
+
+                // 2. Fetch Admin Stats (Users, etc.)
+                let adminStats = { total_users: 0, active_users: 0 }
+                try {
+                    const statsResponse = await axios.get(`${API_URL}/admin/stats`)
+                    adminStats = statsResponse.data
+                } catch (e) { console.warn("Stats fetch failed", e) }
+
+                // Update State
                 setStats({
-                    totalAlerts: (response.data || []).length,
-                    activeWarnings: (response.data || []).filter(a => a.distance < 50).length
+                    totalAlerts: alertsData.length,
+                    activeWarnings: alertsData.filter(a => a.distance < 50).length,
+                    totalUsers: adminStats.total_users,
+                    activeUsers: adminStats.active_users
                 })
+
             } catch (error) {
-                console.error("Error fetching alerts:", error)
+                console.error("Error fetching dashboard data:", error)
             }
         }
 
-        const interval = setInterval(fetchAlerts, 2000)
-        fetchAlerts()
+        const interval = setInterval(fetchData, 2000)
+        fetchData()
         return () => clearInterval(interval)
     }, [isConnected])
 
@@ -199,6 +206,10 @@ function AdminDashboard({ user, onLogout, onStartTutorial }) {
                 <div className="stat-card warning">
                     <div className="stat-value">{stats.activeWarnings}</div>
                     <div className="stat-label">Active Warnings</div>
+                </div>
+                <div className="stat-card">
+                    <div className="stat-value">{stats.totalUsers || 0}</div>
+                    <div className="stat-label">Users Online</div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-value">{useLocalCamera ? 'Local' : 'Server'}</div>
