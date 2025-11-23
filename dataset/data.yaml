@@ -1,0 +1,16 @@
+path: /Users/anuragdineshrokade/Documents/YOLO-Object-Detection-and-Classification-for-ADAS/dataset
+train: images/train
+val: images/val
+
+nc: 10
+names:
+  - person
+  - bike
+  - car
+  - motor
+  - bus
+  - train
+  - truck
+  - scooter
+  - other_vehicle
+

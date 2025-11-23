@@ -1,0 +1,42 @@
+================================================================================
+YOLO OBJECT DETECTION - COMPLETE PROJECT RUN
+================================================================================
+
+ENVIRONMENT:
+  Python: 3.14.0 (v3.14.0:ebf955df7a8, Oct  7 2025, 08:20:14) [Clang 16.0.0 (clang-1600.0.26.6)]
+  PyTorch: 2.9.1
+  Device: cpu
+  CUDA available: False
+
+MODEL:
+  Weights: yolov5/runs/train/exp_model-n_img-640/weights/best_fixed.pt
+  Load time: 0.032s
+  Image size: 640
+  Classes: person, bike, car, motor, bus, train, truck, scooter, other_vehicle
+
+INFERENCE RESULTS:
+  Total images: 4
+  Total detections: 1
+  Average inference time: 20.49ms
+  Total inference time: 0.082s
+
+PER-IMAGE RESULTS:
+--------------------------------------------------------------------------------
+
+val_000.jpg:
+  Detections: 0
+  Inference time: 25.57ms
+
+val_001.jpg:
+  Detections: 1
+  Inference time: 19.06ms
+  Details:
+    - car (conf: 0.501)
+
+val_002.jpg:
+  Detections: 0
+  Inference time: 18.20ms
+
+val_003.jpg:
+  Detections: 0
+  Inference time: 19.14ms
